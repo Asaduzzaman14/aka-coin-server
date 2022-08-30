@@ -52,6 +52,21 @@ async function run() {
         res.send(result)
     })
 
+    app.patch('/coindetail/:id', async (req, res) => {
+        const id = req.params.id;
+        const data = req.body;
+        const filter = { _id: ObjectId(id) }
+        const options = { upsert: true };
+        const updateDoc = {
+            $set: data,
+        };
+
+        const result = await coinCollection.updateOne(filter, updateDoc, options);
+        res.send(updateDoc);
+    });
+
+
+
     // add coin
     app.post('/coin', async (req, res) => {
         const coin = req.body;
